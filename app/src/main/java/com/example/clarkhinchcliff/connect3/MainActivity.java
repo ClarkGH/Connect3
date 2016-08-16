@@ -3,6 +3,7 @@ package com.example.clarkhinchcliff.connect3;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,6 +65,24 @@ public class MainActivity extends AppCompatActivity {
                     winnerTextView.setText("Red wins");
                 }
             }
+        }
+    }
+
+    public void playAgain(View view) {
+        LinearLayout winLayout = (LinearLayout)findViewById(R.id.playAgainLayout);
+
+        winLayout.setVisibility(View.INVISIBLE);
+
+        activePlayer = 0;
+
+        for (int i = 0; i < gameState.length; i++) {
+            gameState[i] = 2;
+        }
+
+        GridLayout gameGrid = (GridLayout)findViewById(R.id.gridLayout);
+
+        for (int i = 0; i < gameGrid.getChildCount(); i++) {
+            ((ImageView) gameGrid.getChildAt(i)).setImageResource(0);
         }
     }
 
