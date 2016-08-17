@@ -11,11 +11,12 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
     //0 = yellow 1 = red
     int activePlayer = 0;
-
     //2 means unplayed
     int[] gameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     int[][] winningConditions = {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     public void dropIn(View view) {
         ImageView counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
+        LinearLayout winLayout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        TextView winnerTextView = (TextView)findViewById(R.id.winnerTextView);
 
         if (gameState[tappedCounter] == 2) {
             counter.setTranslationY(-1000f);
@@ -54,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
                     && gameState[winningPosition[1]] == gameState[winningPosition[2]]
                     && gameState[winningPosition[0]] != 2) {
 
-                LinearLayout winLayout = (LinearLayout)findViewById(R.id.playAgainLayout);
-                TextView winnerTextView = (TextView)findViewById(R.id.winnerTextView);
-
                 winLayout.setVisibility(View.VISIBLE);
 
                 if (gameState[winningPosition[0]] == 0) {
@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
                     winnerTextView.setText("Red wins");
                 }
             }
+        }
+
+        if(!Arrays.asList(gameState).contains(2)) {
+            winnerTextView.setText("It's a draw!");
+            winLayout.setVisibility(View.VISIBLE);
         }
     }
 
