@@ -68,13 +68,20 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     gameActive = false;
+                } else {
+                    boolean gameOver = true;
+
+                    for (int counterState : gameState) {
+                        if (counterState == 2) gameOver = false;
+                    }
+
+                    if (gameOver) {
+                        gameActive = false;
+                        winLayout.setVisibility(View.VISIBLE);
+                        winnerTextView.setText("Draw");
+                    }
                 }
             }
-
-//            if(!Arrays.asList(gameState).contains(2)) {
-//                winnerTextView.setText("It's a draw!");
-//                winLayout.setVisibility(View.VISIBLE);
-//            }
         }
     }
 
