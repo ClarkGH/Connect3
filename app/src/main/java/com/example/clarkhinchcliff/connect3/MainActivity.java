@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     //0 = yellow 1 = red
     int activePlayer = 0;
+    boolean gameActive = true;
     //2 means unplayed
     int[] gameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     int[][] winningConditions = {
@@ -36,45 +37,50 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout winLayout = (LinearLayout)findViewById(R.id.playAgainLayout);
         TextView winnerTextView = (TextView)findViewById(R.id.winnerTextView);
 
-        if (gameState[tappedCounter] == 2) {
-            counter.setTranslationY(-1000f);
-            gameState[tappedCounter] = activePlayer;
+        if (gameActive) {
+            if (gameState[tappedCounter] == 2) {
+                counter.setTranslationY(-1000f);
+                gameState[tappedCounter] = activePlayer;
 
-            if (activePlayer == 0) {
-                counter.setImageResource(R.drawable.yellow);
-                activePlayer = 1;
-            } else {
-                counter.setImageResource(R.drawable.red);
-                activePlayer = 0;
-            }
-            counter.animate().translationYBy(1000f).rotation(360).setDuration(300);
-        } else {
-            Toast.makeText(getApplicationContext(), "This spot is already taken", Toast.LENGTH_LONG).show();
-        }
-
-        for (int[] winningPosition : winningConditions ) {
-            if (gameState[winningPosition[0]] == gameState[winningPosition[1]]
-                    && gameState[winningPosition[1]] == gameState[winningPosition[2]]
-                    && gameState[winningPosition[0]] != 2) {
-
-                winLayout.setVisibility(View.VISIBLE);
-
-                if (gameState[winningPosition[0]] == 0) {
-                    winnerTextView.setText("Yellow wins");
+                if (activePlayer == 0) {
+                    counter.setImageResource(R.drawable.yellow);
+                    activePlayer = 1;
                 } else {
-                    winnerTextView.setText("Red wins");
+                    counter.setImageResource(R.drawable.red);
+                    activePlayer = 0;
+                }
+                counter.animate().translationYBy(1000f).rotation(360).setDuration(300);
+            } else {
+                Toast.makeText(getApplicationContext(), "This spot is already taken", Toast.LENGTH_LONG).show();
+            }
+
+            for (int[] winningPosition : winningConditions ) {
+                if (gameState[winningPosition[0]] == gameState[winningPosition[1]]
+                        && gameState[winningPosition[1]] == gameState[winningPosition[2]]
+                        && gameState[winningPosition[0]] != 2) {
+
+                    winLayout.setVisibility(View.VISIBLE);
+
+                    if (gameState[winningPosition[0]] == 0) {
+                        winnerTextView.setText("Yellow wins");
+                    } else {
+                        winnerTextView.setText("Red wins");
+                    }
+
+                    gameActive = false;
                 }
             }
-        }
 
-        if(!Arrays.asList(gameState).contains(2)) {
-            winnerTextView.setText("It's a draw!");
-            winLayout.setVisibility(View.VISIBLE);
+//            if(!Arrays.asList(gameState).contains(2)) {
+//                winnerTextView.setText("It's a draw!");
+//                winLayout.setVisibility(View.VISIBLE);
+//            }
         }
     }
 
     public void playAgain(View view) {
         LinearLayout winLayout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        gameActive = true;
 
         winLayout.setVisibility(View.INVISIBLE);
 
